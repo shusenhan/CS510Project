@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+.textarea {
+    background-color:"#E8E7E7";
+    border: 1px solid #ccc;
+    padding: 8px;
+    margin: 8px 8px 8px 8px;
+    outline: none;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+    resize: none; 
+    width: 90%;
+    border-width: 0;
+    border-radius: 8px;
+    height:400px
+}
+
+.textarea:focus,textarea:hover {
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5); 
+}
+
+.icon:hover {
+    cursor: pointer;
+    color: #55B23A;
+}
+
+.deleteicon:hover {
+    cursor: pointer;
+    color: #FF8282;
+}
