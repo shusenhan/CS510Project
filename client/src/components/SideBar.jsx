@@ -104,12 +104,12 @@ const SideBar = () => {
                 </FlexBetween>
                 <FlexBetween 
                     sx={{
-                        padding:'0.25rem 12rem'
+                        padding:'0.25rem 9rem'
                 }}>
                     <Typography sx={{
-                        fontSize:'12px'
+                        fontSize:'12px',
                     }}>
-                        Switch Document
+                        {Mydocument === data[0] ? "Switch to Document2 Distribution" : "Switch to Document1 Distribution"}
                     </Typography>
                     <LoopIcon className='rotatable' onClick={SwitchDocument}/>
                 </FlexBetween>

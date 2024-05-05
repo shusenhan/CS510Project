@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper'
 
 const Summary = ({topicLimit, wordLimit}) => {
-    const {similarity, document} = useSelector((state) => state.result)
+    const {similarity, document, summary} = useSelector((state) => state.result)
     const [overlappedWordsProb, setOverlappedWordsProb] = useState(null);
   
     function GetTopWordsProb (Adocument) {
@@ -78,13 +78,17 @@ const Summary = ({topicLimit, wordLimit}) => {
                     padding:"12px 12px",
                     fontSize:"20px",
                     color:"black",
+                    fontWeight:700,
             }}>
                 Summary
             </Typography>
-            <Typography sx={{padding:"5px 5px", fontSize:'14px'}} component="div">
+            <Typography sx={{padding:"5px 5px", fontSize:'14px', fontWeight:700}} component="div">
                 Cosine Similarity: { similarity !== null && Number(similarity.toPrecision(3))}
             </Typography>
-            <Typography component="div" sx={{padding:"5px 5px", fontSize:'14px'}}>
+            <Typography sx={{padding:"5px 5px 15px 5px", fontSize:'14px'}} component="div">
+                Possible Topic: {summary}
+            </Typography>
+            <Typography component="div" sx={{padding:"10px 5px", fontSize:'14px'}}>
                 Common Words in Both Documents' Top Probility Topic
             </Typography>
             <div>
@@ -92,9 +96,9 @@ const Summary = ({topicLimit, wordLimit}) => {
                     <Table sx={{ width: '100%' }}>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Word</TableCell>
-                                <TableCell>Prob in D1</TableCell>
-                                <TableCell>Prob in D2</TableCell>
+                                <TableCell align='center' sx={{width:"33%", fontWeight:700}}>Word</TableCell>
+                                <TableCell align='center' sx={{width:"33%", fontWeight:700}}>Prob in D1</TableCell>
+                                <TableCell align='center' sx={{width:"33%", fontWeight:700}}>Prob in D2</TableCell>
                             </TableRow>
                         </TableHead>
 
@@ -102,9 +106,9 @@ const Summary = ({topicLimit, wordLimit}) => {
                             {Object.entries(overlappedWordsProb)
                                 .map(([word, prob]) => (
                                     <TableRow key={word} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                        <TableCell>{word}</TableCell>
-                                        <TableCell>{Number(prob[0].toPrecision(3))}</TableCell>
-                                        <TableCell>{Number(prob[1].toPrecision(3))}</TableCell>
+                                        <TableCell align='center' sx={{width:"33%", fontSize:'12px'}}>{word}</TableCell>
+                                        <TableCell align='center' sx={{width:"33%", fontSize:'12px'}}>{Number(prob[0].toPrecision(3))}</TableCell>
+                                        <TableCell align='center' sx={{width:"33%", fontSize:'12px'}}>{Number(prob[1].toPrecision(3))}</TableCell>
                                     </TableRow>
                             ))}
                         </TableBody>)}
