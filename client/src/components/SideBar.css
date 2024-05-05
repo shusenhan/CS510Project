@@ -1,0 +1,44 @@
+#sidebar {
+    height: 100%;
+    width: 549px; /* 侧边栏的宽度 */
+    position: fixed;
+    right: -550px; /* 初始在屏幕外 */
+    top: 0;
+    background-color: #E8E7E7;
+    overflow-x: visible;
+    /* overflow-y: scroll; */
+    transition: 0.5s; /* 滑动效果的持续时间 */
+    border-left: 1px solid rgb(122, 122, 122);
+    z-index: 99;
+}
+
+.leftarrow:hover, .rightarrow:hover {
+    color:#818181
+}
+
+.controller {
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin: 10px 10px;
+    padding: 8px 8px;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+.rotatable {
+    transition: transform 0.2s;
+    color:#4a4a4a;
+}
+
+.rotatable:hover {
+    animation: rotate 2s linear infinite; 
+    cursor: pointer;
+    color:#4A90E2;
+}

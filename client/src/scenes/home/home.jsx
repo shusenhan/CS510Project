@@ -4,6 +4,7 @@ import { useState } from "react";
 import TextArea from "../../components/TextArea";
 import { setResult } from "../../state";
 import { useDispatch } from "react-redux";
+import SideBar from "../../components/SideBar";
 
 const HomePage = () => {
     const [text1, setText1] = useState('Please Input Some Contexts or Upload File...');
@@ -26,32 +27,35 @@ const HomePage = () => {
         const result = await response.json();
         console.log(result);
 
-        // if(result){
-        //     dispatch(
-        //         setResult({
-        //             result:result
-        //         })
-        //     );
-        // }
+        if(result){
+            dispatch(
+                setResult({
+                    result:result
+                })
+            );
+        }
     }
 
     return(
         <Box flex="1" sx={{
-            backgroundColor:"#F7DC6F"
+            backgroundColor:"#EBEAEA"
         }}>
-            <NavBar/>
+            <NavBar/>  
+            <SideBar/>
             <Box
-                padding="2rem 6%"
+                padding="2rem 4%"
                 display="flex"
-                gap="1.5rem"
+                gap="1rem"
                 justifyContent="space-between"
             >
-                <TextArea flexBasis="40%" textContent={text1} setText={setText1}/>
-                <TextArea flexBasis="40%" textContent={text2} setText={setText2}/>
+                <TextArea flexBasis="38%" textContent={text1} setText={setText1}/>
+                <TextArea flexBasis="38%" textContent={text2} setText={setText2}/>
             </Box>
-            <Button sx={{backgroundColor:"green", color:"black"}} onClick={Compare}>
-                Compare
-            </Button>
+            <Box sx={{alignItems:'center'}}>
+                <Button sx={{backgroundColor:"#49A33D", color:"black"}} onClick={Compare}>
+                    Compare
+                </Button>
+            </Box>
         </Box>
     )
 };

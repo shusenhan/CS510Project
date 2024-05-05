@@ -16,7 +16,8 @@ html, body, #root {
 
 .footer {
   background-color: #333;
-  color: white;
   text-align: center;
-  padding: 20px 0;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 0;
 }

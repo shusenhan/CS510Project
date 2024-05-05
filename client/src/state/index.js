@@ -1,18 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    result:null
+    result:null,
+    document1:'',
+    document2:'',
 }
 
 export const Slice = createSlice({
     name: "document",
     initialState,
     reducers:{
+        setDocument1: (state, action) => {
+            state.document1 = action.payload.document;
+        },
+        setDocument2: (state, action) => {
+            state.document2 = action.payload.document;
+        },
         setResult: (state, action) => {
             state.result = action.payload.result;
         }
     }
 });
 
-export const {setResult } = Slice.actions;
+export const {setDocument1, setDocument2, setResult } = Slice.actions;
 export default Slice.reducer;
