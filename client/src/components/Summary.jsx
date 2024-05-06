@@ -60,10 +60,16 @@ const Summary = ({topicLimit, wordLimit}) => {
     }
 
     useEffect(() => {
-        if(document){
+        if(document[0]){
             GetOverlappedWordsProb();
         }
     }, [topicLimit, wordLimit]);
+
+    if(!document[0]){
+        return(
+            <div> loading data.....</div>
+        )
+    }
 
     return(
         <div

@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     result:{
-        document:[null,null]
+        document:[null,null],
+        similarity:0,
+        summary:""
     },
     document1:'',
     document2:'',
@@ -20,9 +22,16 @@ export const Slice = createSlice({
         },
         setResult: (state, action) => {
             state.result = action.payload.result;
+        },
+        clearState:(state, action) => {
+            state.result = {
+                document:[null,null],
+                similarity:0,
+                summary:""
+            }
         }
     }
 });
 
-export const {setDocument1, setDocument2, setResult } = Slice.actions;
+export const {setDocument1, setDocument2, setResult, clearState } = Slice.actions;
 export default Slice.reducer;

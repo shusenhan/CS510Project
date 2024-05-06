@@ -5,6 +5,7 @@ import TextArea from "../../components/TextArea";
 import { setResult } from "../../state";
 import { useDispatch } from "react-redux";
 import SideBar from "../../components/SideBar";
+import { clearState } from "../../state";
 
 const HomePage = () => {
     const [text1, setText1] = useState('Please Input Some Contexts or Upload File...');
@@ -36,6 +37,12 @@ const HomePage = () => {
         }
     }
 
+    const CleanData = () => {
+        dispatch(
+            clearState()
+        );
+    };
+
     return(
         <Box flex="1" sx={{
             backgroundColor:"#EBEAEA"
@@ -54,6 +61,10 @@ const HomePage = () => {
             <Box sx={{alignItems:'center'}}>
                 <Button sx={{backgroundColor:"#49A33D", color:"black"}} onClick={Compare}>
                     Compare
+                </Button>
+
+                <Button onClick={CleanData}>
+                    clean
                 </Button>
             </Box>
         </Box>
