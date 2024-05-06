@@ -63,9 +63,9 @@ const HomePage = () => {
                     Compare
                 </Button>
 
-                <Button onClick={CleanData}>
+                {/* <Button onClick={CleanData}>
                     clean
-                </Button>
+                </Button> */}
             </Box>
         </Box>
     )
