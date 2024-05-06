@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    result:null,
+    result:{
+        document:[null,null]
+    },
     document1:'',
     document2:'',
 }

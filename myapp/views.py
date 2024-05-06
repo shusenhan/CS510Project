@@ -13,9 +13,6 @@ from gensim.models import LdaModel
 from .mul_vector import Work
 from sklearn.preprocessing import StandardScaler
 import google.generativeai as genai
-# from google.colab import userdata
-
-# GOOGLE_API_KEY=userdata.get('GOOGLE_API_KEY')
 
 genai.configure(api_key='AIzaSyBRXgwwPmyRTvspHzK6ozCPzxbAvrZHszQ')
 genai_model = genai.GenerativeModel('gemini-pro')
@@ -90,17 +87,14 @@ def GeminiSummary(text):
         prompt = "This is high-wieght common words set in two documents, make a brief sentence (no more than 20 words) to summarize a possible topic: "+ text
         response = genai_model.generate_content(prompt)
         
-        # 检查是否有有效的响应部分
         if hasattr(response, 'parts') and response.parts:
-            return response.parts[0].text  # 假设返回的有效部分在第一个Part对象中
+            return response.parts[0].text
         else:
-            # 检查是否因为安全原因阻止了内容
             if hasattr(response, 'candidate') and hasattr(response.candidate, 'safety_ratings'):
                 return f"Content blocked due to safety filters: {response.candidate.safety_ratings}"
             else:
                 return "No valid content was returned or content was blocked."
     except Exception as e:
-        # 处理异常，返回错误信息
         return f"Error generating summary: {str(e)}"
 
 def get_cosine_similarity(text1, text2):
@@ -121,7 +115,6 @@ def get_multidemensional_cosine_similarity(text1, text2):
     vector1_scaled = scaler.fit_transform(vector1)
     vector2_scaled = scaler.fit_transform(vector2)
 
-    # 计算标准化后的余弦相似度
     cosine_sim = cosine_similarity(vector1_scaled, vector2_scaled)
     
     return cosine_sim[0][0]
