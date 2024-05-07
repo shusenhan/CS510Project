@@ -7,6 +7,7 @@ from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
 from gensim import corpora
 import nltk
+from nltk.tokenize import word_tokenize
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from gensim.models import LdaModel
@@ -26,16 +27,22 @@ nltk.download('wordnet')
 nltk.download('punkt')
 
 def preprocess(text):
+    nltk.download('stopwords')
+    nltk.download('wordnet')
+    nltk.download('punkt')
+
     stop_words = set(stopwords.words('english'))
     lemmatizer = WordNetLemmatizer()
-    tokens = nltk.word_tokenize(text)
+
+    text = text.lower()
+    tokens = word_tokenize(text)
+
     processed_tokens = []
-    
     for word in tokens:
-        if word.lower() not in stop_words and word.isalnum():
+        if word not in stop_words and word.isalnum():
             lemmatized_word = lemmatizer.lemmatize(word)
             processed_tokens.append(lemmatized_word)
-            
+
     return processed_tokens
 
 def docuement_analyze(text):
@@ -115,10 +122,9 @@ def pearson_correlation(text1, text2):
     processed_text1 = " ".join(preprocess(text1))
     processed_text2 = " ".join(preprocess(text2))
 
-    tfidf_vectorizer = TfidfVectorizer()
+    tfidf_vectorizer = TfidfVectorizer(min_df=1, max_df=1.0, max_features=2000)
     tfidf_matrix = tfidf_vectorizer.fit_transform([processed_text1, processed_text2])
     
-    # 获取密集矩阵表示
     dense_matrix = tfidf_matrix.toarray()
     vector1 = dense_matrix[0]
     vector2 = dense_matrix[1]
@@ -170,7 +176,7 @@ def compare_texts(request):
         document_topics_keywords, corpus_topics_keywords = core(text1, text2)
         similarity = get_cosine_similarity(text1, text2)
         bert_sim = bert_similarity(text1,text2)
-#         correlation = pearson_correlation(text1,text2)
+        correlation = pearson_correlation(text1,text2)
         
         words_set1 = get_top_words_distribution(document_topics_keywords[0])
         words_set2 = get_top_words_distribution(document_topics_keywords[1])
@@ -179,7 +185,7 @@ def compare_texts(request):
         
         summary = GeminiSummary(str(common_words))
         
-        result = {'document':document_topics_keywords, 'corpus':corpus_topics_keywords, 'similarity':similarity, 'summary':summary, 'bert_sim':bert_sim}
+        result = {'document':document_topics_keywords, 'corpus':corpus_topics_keywords, 'similarity':similarity, 'summary':summary, 'bert_sim':bert_sim, 'correlation':correlation}
 
         return JsonResponse(result)
 

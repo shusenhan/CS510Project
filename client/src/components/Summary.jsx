@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper'
 
 const Summary = ({topicLimit, wordLimit}) => {
-    const {similarity, document, summary, bert_sim} = useSelector((state) => state.result)
+    const {similarity, document, summary, bert_sim, correlation} = useSelector((state) => state.result)
     const [overlappedWordsProb, setOverlappedWordsProb] = useState(null);
   
     function GetTopWordsProb (Adocument) {
@@ -88,17 +88,20 @@ const Summary = ({topicLimit, wordLimit}) => {
             }}>
                 Summary
             </Typography>
-            <Typography sx={{padding:"5px 5px", fontSize:'14px', fontWeight:700}} component="div">
+            <Typography sx={{padding:"5px 5px 2px 5px", fontSize:'13px', fontWeight:700}} component="div">
                 Cosine Similarity: { similarity !== null && Number(similarity.toPrecision(3))}
             </Typography>
-            <Typography sx={{padding:"5px 5px", fontSize:'14px', fontWeight:700}} component="div">
+            <Typography sx={{padding:"2px 5px 2px 5px", fontSize:'13px', fontWeight:700}} component="div">
                 Bert Similarity: { bert_sim !== null && Number(bert_sim.toPrecision(3))}
+            </Typography>
+            <Typography sx={{padding:"2px 5px 2px 5px", fontSize:'13px', fontWeight:700}} component="div">
+                Pearson Correlation: { correlation !== null && Number(correlation.toPrecision(3))}
             </Typography>
             <Typography sx={{padding:"5px 5px 15px 5px", fontSize:'14px'}} component="div">
                 Possible Topic: {summary}
             </Typography>
             <Typography component="div" sx={{padding:"10px 5px", fontSize:'14px'}}>
-                Common Words in Both Documents' Top Probility Topic
+                Common Words in High Probability Topic
             </Typography>
             <div>
                 <TableContainer component={Paper}>
