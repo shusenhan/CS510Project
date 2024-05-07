@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper'
 
 const Summary = ({topicLimit, wordLimit}) => {
-    const {similarity, document, summary} = useSelector((state) => state.result)
+    const {similarity, document, summary, bert_sim} = useSelector((state) => state.result)
     const [overlappedWordsProb, setOverlappedWordsProb] = useState(null);
   
     function GetTopWordsProb (Adocument) {
@@ -60,7 +60,7 @@ const Summary = ({topicLimit, wordLimit}) => {
     }
 
     useEffect(() => {
-        if(document[0]){
+        if(document[0] !== null){
             GetOverlappedWordsProb();
         }
     }, [topicLimit, wordLimit]);
@@ -90,6 +90,9 @@ const Summary = ({topicLimit, wordLimit}) => {
             </Typography>
             <Typography sx={{padding:"5px 5px", fontSize:'14px', fontWeight:700}} component="div">
                 Cosine Similarity: { similarity !== null && Number(similarity.toPrecision(3))}
+            </Typography>
+            <Typography sx={{padding:"5px 5px", fontSize:'14px', fontWeight:700}} component="div">
+                Bert Similarity: { bert_sim !== null && Number(bert_sim.toPrecision(3))}
             </Typography>
             <Typography sx={{padding:"5px 5px 15px 5px", fontSize:'14px'}} component="div">
                 Possible Topic: {summary}
