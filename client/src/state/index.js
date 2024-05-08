@@ -4,10 +4,12 @@ const initialState = {
     result:{
         document:[null,null],
         similarity:0,
-        summary:""
+        summary:"",
+        plsa:[null,null,null]
     },
     document1:'',
     document2:'',
+    model:'lda'
 }
 
 export const Slice = createSlice({
@@ -29,9 +31,12 @@ export const Slice = createSlice({
                 similarity:0,
                 summary:""
             }
+        },
+        switchModel:(state, action) => {
+            state.model = state.model === 'lda' ? 'plsa' : 'lda';
         }
     }
 });
 
-export const {setDocument1, setDocument2, setResult, clearState } = Slice.actions;
+export const {setDocument1, setDocument2, setResult, clearState, switchModel } = Slice.actions;
 export default Slice.reducer;

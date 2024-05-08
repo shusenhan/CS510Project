@@ -7,13 +7,22 @@ import FlexBetween from './FlexBetween';
 import { Box, Slider, Typography } from '@mui/material';
 import LoopIcon from '@mui/icons-material/Loop';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { switchModel } from '../state';
 
 const SideBar = () => {
     const [arrowType, setArrowType] = useState('left');
     const [topics, setTopics] = useState(5);
     const [words, setWords] = useState(7);
+    const plsa = useSelector((state) => state.result.plsa);
     const data = useSelector((state) => state.result.document);
-    const [Mydocument, setDocument] = useState(data[0]);
+    const [model, setModel] = useState(data);
+    const [modelName, setModelName] = useState('lda');
+    // const [Mydocument, setDocument] = useState(data[0]);
+    const [MydocumentName, setMyDocumentName] = useState('doc1');
+    const [Mydocument, setDocument] = useState(model[0]);
+    const dispatch = useDispatch();
 
     const ShowBar = () => {
         var sidebar = document.getElementById('sidebar');
@@ -27,13 +36,36 @@ const SideBar = () => {
     };
 
     const SwitchDocument = () => {
-        if(Mydocument === data[0]){
-            setDocument(data[1]);
+        if(Mydocument === model[0]){
+            setDocument(model[1]);
         }
         else{
-            setDocument(data[0]);
+            setDocument(model[0]);
         }
     };
+
+    const SwitchModel = () => {
+        if(modelName === 'lda'){
+            setModel(plsa);
+            setModelName('plsa');            
+            dispatch(switchModel());
+        }
+        else{
+            setModel(data);
+            setModelName('lda');           
+            dispatch(switchModel());
+        }
+    };
+
+    useEffect(() => {
+        if(MydocumentName === 'doc1'){
+            setDocument(model[0]);
+        }
+        else{
+            setDocument(model[1]);
+        }
+        
+    }, [model]);
 
     return(
     <div>
@@ -109,7 +141,18 @@ const SideBar = () => {
                     <Typography sx={{
                         fontSize:'12px',
                     }}>
-                        {Mydocument === data[0] ? "Switch to Document2 Distribution" : "Switch to Document1 Distribution"}
+                        {modelName === 'lda' ? "Switch Model to PLSA" : "Switch Model to LDA"}
+                    </Typography>
+                    <LoopIcon className='rotatable' onClick={SwitchModel}/>
+                </FlexBetween>
+                <FlexBetween 
+                    sx={{
+                        padding:'0.25rem 9rem'
+                }}>
+                    <Typography sx={{
+                        fontSize:'12px',
+                    }}>
+                        {Mydocument === model[0] ? "Switch to Document2 Distribution" : "Switch to Document1 Distribution"}
                     </Typography>
                     <LoopIcon className='rotatable' onClick={SwitchDocument}/>
                 </FlexBetween>

@@ -11,7 +11,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper'
 
 const Summary = ({topicLimit, wordLimit}) => {
-    const {similarity, document, summary, bert_sim, correlation} = useSelector((state) => state.result)
+    const {similarity, document, summary, bert_sim, correlation, plsa} = useSelector((state) => state.result)
+    const model = useSelector((state) => state.model)
     const [overlappedWordsProb, setOverlappedWordsProb] = useState(null);
   
     function GetTopWordsProb (Adocument) {
@@ -19,6 +20,7 @@ const Summary = ({topicLimit, wordLimit}) => {
 
         // 对 topics 按 prob 降序排序
         const sortedTopics = topicsArray.sort((a, b) => b.prob - a.prob);
+        // console.log("sortedTopics:",sortedTopics)
 
         // 获取前五个高 prob 的 topics
         const topFiveTopics = sortedTopics.slice(0, topicLimit);
@@ -43,20 +45,44 @@ const Summary = ({topicLimit, wordLimit}) => {
     };
 
     function GetOverlappedWordsProb ()  {
-        const D1WP = GetTopWordsProb(document[0]);
-        const D2WP = GetTopWordsProb(document[1]);
+        if (model === 'lda'){
+            const D1WP = GetTopWordsProb(document[0]);
+            const D2WP = GetTopWordsProb(document[1]);
+
+            const commonWords = {}
+            for (const word in D1WP) {
+                if (word in D2WP) {
+                    commonWords[word] = [D1WP[word], D2WP[word]];
+                }
+            }
+
+            setOverlappedWordsProb(commonWords);
+        }
+        else{
+            const D1WP = GetTopWordsProb(plsa[0]);
+            const D2WP = GetTopWordsProb(plsa[1]);
+
+            const commonWords = {}
+            for (const word in D1WP) {
+                if (word in D2WP) {
+                    commonWords[word] = [D1WP[word], D2WP[word]];
+                }
+            }
+
+            setOverlappedWordsProb(commonWords);
+        }
 
         // console.log("D1WP:",D1WP)
         // console.log("D2WP:",D2WP)
 
-        const commonWords = {}
-        for (const word in D1WP) {
-            if (word in D2WP) {
-                commonWords[word] = [D1WP[word], D2WP[word]];
-            }
-        }
+        // const commonWords = {}
+        // for (const word in D1WP) {
+        //     if (word in D2WP) {
+        //         commonWords[word] = [D1WP[word], D2WP[word]];
+        //     }
+        // }
 
-        setOverlappedWordsProb(commonWords);
+        // setOverlappedWordsProb(commonWords);
     }
 
     useEffect(() => {
@@ -65,7 +91,7 @@ const Summary = ({topicLimit, wordLimit}) => {
         }
     }, [topicLimit, wordLimit]);
 
-    if(!document[0]){
+    if(!document[0] || !plsa[0]){
         return(
             <div> loading data.....</div>
         )
@@ -114,7 +140,7 @@ const Summary = ({topicLimit, wordLimit}) => {
                             </TableRow>
                         </TableHead>
 
-                        {overlappedWordsProb && document && (<TableBody>
+                        {overlappedWordsProb && document && plsa && (<TableBody>
                             {Object.entries(overlappedWordsProb)
                                 .map(([word, prob]) => (
                                     <TableRow key={word} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>

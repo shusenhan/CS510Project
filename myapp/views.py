@@ -18,6 +18,7 @@ from transformers import BertTokenizer, BertForNextSentencePrediction
 import torch
 import numpy as np
 from scipy.sparse import csr_matrix
+from .plsa import plsa
 
 genai.configure(api_key='AIzaSyBRXgwwPmyRTvspHzK6ozCPzxbAvrZHszQ')
 genai_model = genai.GenerativeModel('gemini-1.5-pro-latest')
@@ -185,7 +186,9 @@ def compare_texts(request):
         
         summary = GeminiSummary(str(common_words))
         
-        result = {'document':document_topics_keywords, 'corpus':corpus_topics_keywords, 'similarity':similarity, 'summary':summary, 'bert_sim':bert_sim, 'correlation':correlation}
+        plsa_matrix = plsa(text1, text2)
+        
+        result = {'document':document_topics_keywords, 'corpus':corpus_topics_keywords, 'similarity':similarity, 'summary':summary, 'bert_sim':bert_sim, 'correlation':correlation, 'plsa':plsa_matrix}
 
         return JsonResponse(result)
 
