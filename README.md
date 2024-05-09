@@ -1,4 +1,5 @@
 How to run the appliction:
+
   1.download the project
   
   2.install the django framework in python environment
